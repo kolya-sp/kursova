@@ -85,7 +85,7 @@ namespace WebApplication1.Controllers
                 using var client = new HttpClient();
                 var content = await client.GetStringAsync($"https://api.spoonacular.com/recipes/search?apiKey=28ac32055a7f4736ae27d8a95d6ff17b&query={id}");
                 Resept r = System.Text.Json.JsonSerializer.Deserialize<Resept>(content);
-                if (r != null) foreach (Resept.resept1 x in r.results) rez += " назва: \n " + x.title + " \n сайт з рецептом: \n " + x.sourceUrl+" \n \n";
+                if (r != null) foreach (Resept.resept1 x in r.results) rez += " назва: \n " + x.title + " \n сайт з рецептом: \n " + x.sourceUrl + " \n \n";
                 if (rez == "") rez = "рецепт не знайдено";
             }
             catch
@@ -118,9 +118,10 @@ namespace WebApplication1.Controllers
             try
             {
                 List<log> history = JsonConvert.DeserializeObject<List<log>>(System.IO.File.ReadAllText(@"user.json"));
+                int k = 0;
                 if (history == null) history = new List<log>();
                 for (int i = 0; i < history.Count; i++)
-                    if (history[i].id == int.Parse(id)) rezult += "№" + i + ") " + history[i].info + "\n";
+                    if (history[i].id == int.Parse(id)) { rezult += "№" + (k++) + ") " + history[i].info + "\n"; }
             }
             catch
             {
@@ -165,12 +166,19 @@ namespace WebApplication1.Controllers
             try
             {
                 List<log> history = JsonConvert.DeserializeObject<List<log>>(System.IO.File.ReadAllText(@"user.json"));
-                if (history[id].id == value.id)
+                int k = -1;
+                int i;
+                for (i = 0; i < history.Count; i++) if (history[i].id == value.id)
+                    {
+                        k++;
+                        if (k == id) break;
+                    }
+                if (history[i].id == value.id)
                 {
                     if (history == null) history = new List<log>();
                     else
                     {
-                        history[id] = value;
+                        history[i] = value;
                     }
                     await System.IO.File.WriteAllTextAsync(@"user.json", JsonConvert.SerializeObject(history, Formatting.Indented));
                 }
@@ -183,11 +191,19 @@ namespace WebApplication1.Controllers
 
         // DELETE: api/ApiWithActions/5
         [HttpDelete("{id}/{id2}")]
-        public async Task Delete(int id, int id2)
+        public async Task Delete(int id, int id2) // id - номер повідомлення, id2 - номер чату
         {
             try
             {
                 List<log> history = JsonConvert.DeserializeObject<List<log>>(System.IO.File.ReadAllText(@"user.json"));
+                
+                int k = -1;
+                int i;
+                for (i = 0; i < history.Count; i++) if (history[i].id == id2)
+                    {
+                        k++;
+                        if (k == id) break;
+                    }
 
                 if (history == null)
                 {
@@ -197,11 +213,11 @@ namespace WebApplication1.Controllers
                 {
                     if (id != -1)
                     {
-                        if (history[id].id == id2) history.RemoveAt(id);
+                        if (history[i].id == id2) history.RemoveAt(i);
                     }
                     else
                     {
-                        for (int i = history.Count-1; i >= 0 ; i--) if (history[i].id == id2) history.RemoveAt(i);
+                        for (int j = history.Count - 1; j >= 0; j--) if (history[j].id == id2) history.RemoveAt(j);
                     }
                 }
                 await System.IO.File.WriteAllTextAsync(@"user.json", JsonConvert.SerializeObject(history, Formatting.Indented));

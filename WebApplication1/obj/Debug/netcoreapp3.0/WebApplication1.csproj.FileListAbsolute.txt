@@ -224,4 +224,3 @@ C:\Users\user\Documents\учебники и задания\ОП\lab_2_semestr\ku
 C:\Users\user\Documents\учебники и задания\ОП\lab_2_semestr\kursova\WebApplication1\obj\Debug\netcoreapp3.0\WebApplication1.csproj.CoreCompileInputs.cache
 C:\Users\user\Documents\учебники и задания\ОП\lab_2_semestr\kursova\WebApplication1\obj\Debug\netcoreapp3.0\WebApplication1.MvcApplicationPartsAssemblyInfo.cache
 C:\Users\user\Documents\учебники и задания\ОП\lab_2_semestr\kursova\WebApplication1\bin\Debug\netcoreapp3.0\user.json
-C:\Users\user\Documents\учебники и задания\ОП\lab_2_semestr\kursova\WebApplication1\obj\Debug\netcoreapp3.0\WebApplication1.csprojAssemblyReference.cache
